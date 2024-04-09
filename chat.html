@@ -27,6 +27,20 @@
   const chatID = 'territorial lobby'; // Bu ID, chat'e bağlanmak için gerekli
   let isLoggedIn = false; // Kullanıcının giriş yapma durumunu takip etmek için
 
+  const ws = new WebSocket('ws://localhost:8080');
+
+  ws.onopen = function() {
+    console.log('WebSocket connection established.');
+  };
+
+  ws.onmessage = function(event) {
+    displayMessage('Server', event.data);
+  };
+
+  ws.onclose = function() {
+    console.log('WebSocket connection closed.');
+  };
+
   chatInput.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
       const message = e.target.value;
@@ -53,6 +67,8 @@
           displayMessage('System', 'Please log in first.');
         }
       }
+      // WebSocket üzerinden mesajı sunucuya gönder
+      ws.send(username + ': ' + message);
       e.target.value = '';
     }
   });
