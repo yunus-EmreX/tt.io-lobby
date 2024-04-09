@@ -27,7 +27,7 @@
   const chatID = 'territorial lobby'; // Bu ID, chat'e bağlanmak için gerekli
   let isLoggedIn = false; // Kullanıcının giriş yapma durumunu takip etmek için
 
-  const ws = new WebSocket('ws://localhost:8080');
+  const ws = new WebSocket('wss://3dn5v5.territorial.io/s52/');
 
   ws.onopen = function() {
     console.log('WebSocket connection established.');
