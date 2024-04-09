@@ -23,7 +23,7 @@
   const chatBox = document.getElementById('chat-box');
   const chatInput = document.getElementById('chat-input');
   const fileInput = document.getElementById('file-input');
-  let username = prompt('Lütfen chat için bir kullanıcı adı girin:', 'misafir' + Math.floor(Math.random() * 1000));
+  let username = prompt('Please enter a username for the chat:', 'shadow' + Math.floor(Math.random() * 1000));
   const chatID = 'territorial lobby'; // Bu ID, chat'e bağlanmak için gerekli
   let isLoggedIn = false; // Kullanıcının giriş yapma durumunu takip etmek için
 
@@ -34,23 +34,23 @@
         chatBox.innerHTML = '';
       } else if (message.startsWith('id ')) {
         if (message.substring(3) === chatID) {
-          displayMessage('Sistem', 'Chat ID doğru. Sohbete hoş geldiniz!');
+          displayMessage('System', 'The Chat ID is correct. Welcome to the chat!');
         } else {
-          displayMessage('Sistem', 'Yanlış Chat ID. Bağlantı reddedildi.');
+          displayMessage('System', 'Incorrect Chat ID. Connection refused.');
         }
       } else if (message === '!login') {
-        const password = prompt('Lütfen şifrenizi girin:');
+        const password = prompt('Please Enter The Password');
         if (password === 'messiah') {
           isLoggedIn = true;
-          displayMessage('Sistem', 'Doğru şifre. Özel sohbete hoş geldiniz!');
+          displayMessage('Sistem', 'Correct password. Welcome to the private chat!');
         } else {
-          displayMessage('Sistem', 'Yanlış şifre. Erişim reddedildi.');
+          displayMessage('System', 'Incorrect password. Access is denied.');
         }
       } else {
         if (isLoggedIn) {
           displayMessage(username, message);
         } else {
-          displayMessage('Sistem', 'Lütfen önce giriş yapın.');
+          displayMessage('System', 'Please log in first.');
         }
       }
       e.target.value = '';
