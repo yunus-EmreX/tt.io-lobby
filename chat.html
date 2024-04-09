@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>tt.io Lobby</title>
+<style>
+  body { background-color: #000; font-family: 'Courier New', monospace; color: #33ff33; }
+  .chat-container { width: 100%; max-width: 800px; margin: auto; padding: 20px; }
+  .chat-box { background: #000; padding: 10px; height: 500px; overflow-y: scroll; }
+  .chat-input { width: calc(100% - 20px); padding: 10px; margin-top: 10px; background: #000; border: none; color: #33ff33; }
+  .message { margin: 5px; padding: 5px; }
+  .username { font-weight: bold; }
+  .file-input { margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="chat-container">
+  <div id="chat-box" class="chat-box"></div>
+  <input type="text" id="chat-input" class="chat-input" placeholder="mesaj@tt.io:~$" />
+  <input type="file" id="file-input" class="file-input" />
+</div>
+<script>
+  const chatBox = document.getElementById('chat-box');
+  const chatInput = document.getElementById('chat-input');
+  const fileInput = document.getElementById('file-input');
+  let username = prompt('Lütfen chat için bir kullanıcı adı girin:', 'misafir' + Math.floor(Math.random() * 1000));
+  const chatID = 'territorial lobby'; // Bu ID, chat'e bağlanmak için gerekli
+  let isLoggedIn = false; // Kullanıcının giriş yapma durumunu takip etmek için
+
+  chatInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      const message = e.target.value;
+      if (message === '!clear') {
+        chatBox.innerHTML = '';
+      } else if (message.startsWith('id ')) {
+        if (message.substring(3) === chatID) {
+          displayMessage('Sistem', 'Chat ID doğru. Sohbete hoş geldiniz!');
+        } else {
+          displayMessage('Sistem', 'Yanlış Chat ID. Bağlantı reddedildi.');
+        }
+      } else if (message === '!login') {
+        const password = prompt('Lütfen şifrenizi girin:');
+        if (password === 'messiah') {
+          isLoggedIn = true;
+          displayMessage('Sistem', 'Doğru şifre. Özel sohbete hoş geldiniz!');
+        } else {
+          displayMessage('Sistem', 'Yanlış şifre. Erişim reddedildi.');
+        }
+      } else {
+        if (isLoggedIn) {
+          displayMessage(username, message);
+        } else {
+          displayMessage('Sistem', 'Lütfen önce giriş yapın.');
+        }
+      }
+      e.target.value = '';
+    }
+  });
+
+  fileInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) {
+      return;
+    }
+    // Dosya yükleme işlemleri burada yapılacak.
+    // Bu örnek, gerçek bir dosya yükleme işlemi yapmaz.
+    displayMessage(username, 'Dosya gönderildi: ' + file.name);
+  });
+
+  function displayMessage(username, message) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message');
+    messageElement.textContent = username + ': ' + message;
+    chatBox.appendChild(messageElement);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+</script>
+</body>
+</html>
